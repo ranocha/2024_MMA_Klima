@@ -11,12 +11,19 @@ der [Mainzer Mathe-Akademie 2024](https://freunde.mathematik.uni-mainz.de/mma/).
 ## Installation
 
 Wir verwenden die Programmiersprache [Julia](https://julialang.org).
-Um mit dem bereitgestellten material zu arbeiten, muss Julia heruntergeladen
+Um mit dem bereitgestellten Material zu arbeiten, muss Julia heruntergeladen
 und installiert werden. Die Links und Anleitung dazu sind auf
 https://julialang.org/downloads/
 zu finden.
+Das Material wurde mit Julia Version 1.10.5 erstellt.
 
-TODO: Pluto.jl Projects etc,
+Die einzelnen Bausteine sind von [Pluto.jl](https://github.com/fonsp/Pluto.jl)
+Notebooks. Um diese nutzen zu können, muss das Julia-Paket Pluto.jl
+installiert werden. Dies kann wie auf der
+[offiziellen Pluto.jl Website](https://plutojl.org/)
+gemacht werden, um die aktuelle Version von Pluto.jl zu installieren.
+Um genau die gleiche Version wie bei der Erstellung des Materials zu verwenden,
+können folgende Schritte befolgt werden.
 
 
 ## Working from a terminal (e.g., Linux or macOS)
