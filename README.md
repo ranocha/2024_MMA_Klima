@@ -25,27 +25,28 @@ gemacht werden, um die aktuelle Version von Pluto.jl zu installieren.
 Um genau die gleiche Version wie bei der Erstellung des Materials zu verwenden,
 können folgende Schritte befolgt werden.
 
+### Mit einem Terminal arbeiten (hauptsächlich Linux oder macOS)
 
-## Working from a terminal (e.g., Linux or macOS)
-
-Open a terminal and run
+Öffnen Sie ein Terminal (die Konsole) und führen Sie folgenden Code in diesem
+Ordner aus:
 
 ```bash
-julia -e 'import Pkg; Pkg.activate("."); Pkg.instantiate(); import Pluto; Pluto.run()'
+julia -e 'import Pkg; Pkg.activate(pwd()); Pkg.instantiate(); import Pluto; Pluto.run()'
 ```
 
-in this directory. Then, open the Pluto notebook `online_stats.jl`.
+Danach sollte sich ein Browser-Fenster öffnen, in dem die einzelnen Pluto.jl Notebooks
+ausgewählt werden können.
 
+### Windows
 
-## Windows
-
-Open the Julia REPL in this directory, e.g., by navigating to this directory
-in the Windows File Explorer and typing "julia" the address bar. A console
-window should open. There, execute
+Öffnen Sie die Julia REPL - entweder direkt von der Konsole aus oder indem Sie im
+Windows Datei Explorer dieses Verzeichnis öffnen und dann in die Adresszeile
+"julia" eingeben. Ein Konsolenfenster sollte sich öffnen, in dem Sie folgenden
+Code ausführen:
 
 ```julia
-import Pkg; Pkg.activate("."); Pkg.instantiate(); import Pluto; Pluto.run()
+import Pkg; Pkg.activate(pwd()); Pkg.instantiate(); import Pluto; Pluto.run()
 ```
 
-in the Julia REPL. Then, open the Pluto notebook `online_stats.jl`.
-
+Danach sollte sich ein Browser-Fenster öffnen, in dem die einzelnen Pluto.jl Notebooks
+ausgewählt werden können.
