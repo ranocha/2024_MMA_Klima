@@ -50,3 +50,11 @@ import Pkg; Pkg.activate(pwd()); Pkg.instantiate(); import Pluto; Pluto.run()
 
 Danach sollte sich ein Browser-Fenster öffnen, in dem die einzelnen Pluto.jl Notebooks
 ausgewählt werden können.
+
+
+## Ablauf
+
+- Einführung in die Thematik (Seminarraum)
+- Einführung in die Programmierung mit Julia:
+    - Code mit Aufgaben im Notebook `02_Einführung_in_Julia.jl`
+- Visualisierung einfacher Klimadaten
