@@ -55,9 +55,10 @@ ausgewählt werden können.
 ## Ablauf
 
 - Einführung in die Thematik (Seminarraum)
-- Einführung in die Programmierung mit Julia
+- Einführung in die Programmierung mit Julia (Seminarraum, Computerraum)
     - Code mit Aufgaben im Notebook `02_Einführung_in_Julia.jl`
     - Statische Darstellung der Aufgabe: https://ranocha.de/2024_MMA_Klima/02_Einführung_in_Julia.html
-- Visualisierung einfacher Klimadaten
+- Visualisierung einfacher Klimadaten (Computerraum)
     - Code mit Aufgaben im Notebook `03_Visualisierung_einfacher_Klimadaten.jl`
     - Statische Darstellung der Aufgabe: https://ranocha.de/2024_MMA_Klima/03_Visualisierung_einfacher_Klimadaten.html
+- Statische 0D Energie-Bilanz-Modelle (Seminarraum)
