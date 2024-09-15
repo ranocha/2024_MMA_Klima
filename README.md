@@ -72,3 +72,7 @@ ausgewählt werden können.
     - Skript
     - Material und Code im Notebook `06_Stochastisches_Modell.jl`
     - Statische Darstellung der Aufgaben: https://ranocha.de/2024_MMA_Klima/06_Stochastisches_Modell.html
+- Ausblick auf räumliche Abhängigkeiten (Seminarraum)
+    - Skript
+    - Material und Code im Notebook `07_Räumliche_Abhängigkeiten.jl`
+    - Statische Darstellung der Aufgaben: https://ranocha.de/2024_MMA_Klima/07_Räumliche_Abhängigkeiten.html
