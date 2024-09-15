@@ -76,3 +76,18 @@ ausgewählt werden können.
     - Skript
     - Material und Code im Notebook `07_Räumliche_Abhängigkeiten.jl`
     - Statische Darstellung der Aufgaben: https://ranocha.de/2024_MMA_Klima/07_Räumliche_Abhängigkeiten.html
+
+## Quellen
+
+Detaillierte Quellenangaben findne Sie in den zugehörigen Notizen, die in der
+Veranstaltung verteilt werden.
+Darüber hinaus wurde dieser Kurs von Material der Lehrveranstaltung
+*An introduction to Climate Modeling* im Sommersemester 2023 an
+der Universität zu Köln inspiriert, die von Gregor Gassner und
+Andrés Rueda-Ramírez geleitet wurde und durch Beiträge von Daniel Bach,
+Sophia Schmickler, Erik Faulhaber und Luca Sommer unterstützt wurde.
+
+Ein einfaches Klimamodell, das auf den hier behandelten Themen (ohne die
+stochastischen Einflüsse) basiert und zusätzlich räumliche Abhängigkeiten
+in Form partieller Differentalgleichungen modelliert ist in dem Prototyp
+[Klimakoffer.jl](https://github.com/klimakoffer/Klimakoffer.jl) implementiert.
