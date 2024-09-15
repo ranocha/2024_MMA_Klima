@@ -4,243 +4,221 @@
 using Markdown
 using InteractiveUtils
 
-# ╔═╡ b5d30f29-0a04-4aa3-bcf8-49c857491226
+# ╔═╡ 05a47e47-678d-4517-aa8f-7b1e37b04868
 using Plots
 
-# ╔═╡ e7a09e01-8039-49be-bdf5-1bd1fc629fe9
+# ╔═╡ 2e11ed1b-bf06-44fb-954b-2452793b71c1
 using LaTeXStrings
 
-# ╔═╡ 88fb13ca-79bb-4280-a7f3-3de6d8ac07a9
+# ╔═╡ 777b3597-2238-479f-9917-c97645cc6b32
+using Random
+
+# ╔═╡ 351a442b-7dcc-4633-be35-f1fe975811cb
 using PlutoTeachingTools
 
-# ╔═╡ a629375a-6c6e-11ef-22c2-2976d3416040
+# ╔═╡ 99b1e590-732f-11ef-3970-dd2ca5ffa936
 md"""
-# Zeitabhängiges 0D Energie-Bilanz-Modell (EBM)
+# Zeitabhängiges Modell mit stochastischen Einflüssen
 """
 
-# ╔═╡ 84b09fb1-4a95-4048-b052-acf9573c4c0e
+# ╔═╡ 1e0fdf42-5a53-4dcc-bf04-f094a893cfd3
 md"""
 #### Pakete installieren
 
 _Bevor wir mit der Einführung beginnen, werden ein paar Pakete installiert. Das kann beim ersten mal ein paar Minuten dauern._
 """
 
-# ╔═╡ 61359f21-23f3-4222-bc34-d6d0c21d9cb0
+# ╔═╡ 4f7e9219-fa78-4b98-a46d-0165230e4cb4
 md"""
-## Berücksichtigung der Wärmekapazität
-
-In dem zeitunabhängigen Modell haben wir effektiv angenommen, dass die
-Temperatur sich sofot an veränderte Strahlungsbilanzen anpasst. In der
-Realität ist dies jedoch nicht der Fall, da die Wärmekapazität $C$
-berücksichtigt werden muss. Dies führt zu einer Gleichung der Form
-
-$$\begin{equation*}
-  C \frac{\mathrm{d} T(t)}{\mathrm{d} t}
-  =
-  \text{eintreffende Strahlungsenergie} - \text{abgestrahlte Wärme},
-\end{equation*}$$
-
-wobei $t$ die Zeit ist. Dies ist eine *Differentialgleichung*,
-denn wir suchen die Werte einer Funktion $T(t)$, kennen aber nur
-eine Gleichung, in der die Ableitung $\mathrm{d} T(t) / \mathrm{d} t$
-vorkommt - und einen Anfangswert $T(t_0)$ zu einer festen Zeit $t_0$.
-
-Wir verwenden die mittlere Wärmekapazität
-
-$$\begin{equation*}
-  C = 1.935 \cdot 10^8 \frac{\mathrm{J}}{\mathrm{m}^2 \mathrm{K}}
-\end{equation*}$$
-
-der Erdoberfläche, die sich aus einer Mittlung der Werte von
-Zhuang et al. (2017) über die gesamte Erdoberfläche ergibt.
-Wenn wir mit diesen SI-Einheiten rechnen, müssen wir die Zeit in
-Sekunden angeben. Für uns wird es praktischer sein, die Zeit $t$
-in Jahren anzugeben. Dazu müssen wir die Ableitung 
-$\frac{\mathrm{d} T}{\mathrm{d} t}$
-mit der Anzahl der Sekunden pro Jahr skalieren.
+## Visualisierung der Approximation von Benzi et al. (1982)
 """
 
-# ╔═╡ 93de635a-121c-4280-95a9-379827aef700
+# ╔═╡ 11cf0494-62d5-4aa7-9946-d35a2e0f3b0c
 md"""### Aufgabe
 
-👉 Berechnen Sie die mittlere Anzahl der Sekunden pro Jahr
-und den Wert der Wärmekapazität $C$, wenn die Zeit $t$ in Jahren angegeben
-wird.
+👉 Berechnen Sie den Wert des Parameters $\beta$ nach der Beschreibung aus den Notizen.
 """
 
-# ╔═╡ 26b580dd-0dd7-4f3f-991f-b99fadf97656
-sekunden_pro_jahr = missing
+# ╔═╡ 975b141b-4755-4f5d-bc44-980c335376ee
+β = missing
 
-# ╔═╡ 0538e82e-d959-440c-8572-a26e9b22bfd0
-if !@isdefined(sekunden_pro_jahr)
-	not_defined(:sekunden_pro_jahr)
-elseif ismissing(sekunden_pro_jahr)
+# ╔═╡ d19427e4-6b9c-497a-b7d6-6211c8b02444
+if !@isdefined(β)
+	not_defined(:β)
+elseif ismissing(β)
 	still_missing()
-elseif !(sekunden_pro_jahr isa Real)
-	keep_working(md"`sekunden_pro_jahr` sollte eine reelle Zahl sein.")
-elseif !(sekunden_pro_jahr ≈ 365.25 * 24 * 60 * 60)
-	keep_working(md"`sekunden_pro_jahr` stimmt noch nicht ganz'")
+elseif !(β isa Real)
+	keep_working(md"`β` sollte eine reelle Zahl sein.")
+elseif !(β ≈ -0.06319980408178315)
+	keep_working(md"`β` stimmt noch nicht ganz'")
 else
 	correct()
 end
 
-# ╔═╡ fbe6eed1-c61f-4a56-9191-0f170f4f79fa
-wärmekapazität = missing
-
-# ╔═╡ 1e8969da-ee7a-461d-b28a-b0fb761adc8c
-if !@isdefined(wärmekapazität)
-	not_defined(:wärmekapazität)
-elseif ismissing(wärmekapazität)
-	still_missing()
-elseif !(wärmekapazität isa Real)
-	keep_working(md"`wärmekapazität` sollte eine reelle Zahl sein.")
-elseif abs(wärmekapazität - 6.13) > 0.01
-	keep_working(md"`wärmekapazität` stimmt noch nicht ganz'")
-else
-	correct()
-end
-
-# ╔═╡ d6e21a2f-866a-4493-88bd-568de7ec5bc0
-md"""
-## Lösen der Differentialgleichung
-
-Einsetzen der Werte des bisher verwendeten Modells und normalisieren
-auf die Erdoberfläche $4 \pi R_E^2$ liefert die Gleichung
-
-$$\begin{equation*}
-  C \frac{\mathrm{d} T(t)}{\mathrm{d} t}
-  =
-  \frac{S_0}{4} (1 - \alpha)
-  - \left( (a - \Delta a) + b T(t) \right),
-\end{equation*}$$
-
-mit den Werten
-
-- Solarkonstante $S_0 = 1361 \frac{\mathrm{W}}{\mathrm{m}^2}$
-- Albedo $\alpha = 0.3$
-- Fit-Parameter $a = 210.3 \frac{\mathrm{W}}{\mathrm{m}^2}$
-- CO₂-Anpassung $\Delta a = \log(c / c_0) \cdot 5.35 \frac{\mathrm{W}}{\mathrm{m}^2}$
-- Fit-Parameter $b = 2.15 \frac{\mathrm{W}}{\mathrm{m}^2 \degree\mathrm{C}}$
-"""
-
-# ╔═╡ 4e20b8db-74e8-4dc9-b307-967df8722199
-md"""
-Diese Differentialgleichung kann explizit gelöst werden:
-
-$$\begin{equation*}
-  T(t) = T_{GG} + \bigl( T(t_0) - T_{GG}) \mathrm{e}^{-(t - t_0) / \tau},
-\end{equation*}$$
-
-wobei
-
-$$\begin{equation*}
-  T_{GG} = \frac{\frac{S_0}{4} (1 - \alpha) - (a - \Delta a)}{b}
-\end{equation*}$$
-
-die Temperatur im Gleichgewicht ist und
-
-$$\begin{equation*}
-  \tau = C / b
-\end{equation*}$$
-
-die Relaxationszeit.
-"""
-
-# ╔═╡ 4a978a4f-3745-4036-ab9e-ab0831e45298
+# ╔═╡ 166d5354-6919-42e9-b622-16a041455c5b
 md"""### Aufgabe
 
-👉 Visualisieren Sie die oben angegebene Lösung der Differentialgleichung
-für verschiedene Wahlen der Anfangstemperatur $T(t_0)$ und der CO₂-Konzentration.
+👉 Visualisieren Sie die Funktion $\delta(T)$.
 """
 
-# ╔═╡ 2d300023-2b03-458f-8caa-4263bc695145
-temperatur_gleichgewicht = missing
+# ╔═╡ 41c53df2-4120-49d8-84ba-5e2c98b599e4
+missing
 
-# ╔═╡ 4bdc0187-a0e3-447b-995f-934c7dba959d
-let
-	abbildung = plot(xguide = L"Zeit $t$ in Jahren",
-					 yguide = L"Temperatur $T$ in °C")
-	
-	t0 = 0.0
-	tf = 10.0
-	plot!(abbildung, [t0, tf], fill(temperatur_gleichgewicht, 2),
-		  label = L"Gleichgewichts-Temperatur $T_{GG}$")
-	
-	# Code zu schreiben
-	
-	abbildung
-end
-
-# ╔═╡ d8356547-4f1c-44ea-be37-faab8add7919
+# ╔═╡ e11cbf86-8db7-44db-a685-6462da8eb0e1
 md"""
-## Numerisches Lösen der Differentialgleichung
+## Empirisches Modell mit zwei stationären Zuständen
 
-In diesem einfachen Fall kann die Differentialgleichung analytisch gelöst werden.
-Um bessere Approximationen zu erhalten, müssen jedoch kompliziertere Modelle
-verwendet werden. Die dabei auftretenden Differentalgleichungen können in der Regel
-nicht mehr analytisch gelöst werden. Daher werden numerische Verfahren benötigt.
+Wir schreiben das empirische Modell mit zwei stationären Zuständen
+als
+
+$$\frac{\mathrm{d} T(t)}{\mathrm{d} t} = f\bigl(t, T(t) \bigr), \qquad T(t_0) = T_0.$$
 """
 
-# ╔═╡ 27cca4ec-d433-48e4-b663-e9d161588a71
-md"""
-Schreiben wir eine gewöhnliche Differentialgleichung in der Form
-
-$$\frac{\mathrm{d} T(t)}{\mathrm{d} t} = f\bigl(t, T(t) \bigr),
-\qquad T(t_0) = T_0,$$
-
-wobei die Funktion $f$ auf der rechten Seite sowie der Anfangswert 
-$T_0$ zur Zeit $t_0$ bekannt sind. Da die Ableitung
-
-$$\frac{\mathrm{d} T(t)}{\mathrm{d} t}
-= \lim_{h \to 0} \frac{T(t + h) - T(t)}{h}$$
-
-als Grenzwert von Differenzenquotienten definiert ist, liegt es nahe,
-ein festes $h > 0$ zu wählen und damit die Approximation
-
-$$\frac{\mathrm{d} T(t)}{\mathrm{d} t} \approx \frac{T(t + h) - T(t)}{h}.$$
-
-Wenn wir mit dem Startwert $T_0$ zur Zeit $t_0$ beginnen, erhalten wir damit
-die Approximationen entlang eines Polygonzugs mit den Zeiten $t_0$, $t_1 = t_0 + h$,
-$t_2 = t_1 + h = t_0 + 2 h$ etc. und den Werten
-
-- Schritt 1: $T_1 = T_0 + h f(t_0, T_0) \approx T(t_1)$
-- Schritt 2: $T_2 = T_1 + h f(t_1, T_1) \approx T(t_2)$
-- etc.
-
-Diese numerische Verfahren wird als (explizites) *Euler-Verfahren* bezeichnet.
-"""
-
-# ╔═╡ e019551b-0b66-4c52-8773-5213b85ad1cd
+# ╔═╡ c3ac539f-bed3-46c4-9371-d52290a319a3
 md"""### Aufgabe
 
-👉 Implementieren Sie das Euler-Verfahren für eine vorgegebene Schrittweite 
-und visualisieren Sie die Ergebnisse für verschiedenen Anfangsbedingungen.
-Was passiert bei großen Schrittweiten?
+👉 Implementieren Sie die Funktion $f$ (die rechte Seite der Gleichung). Visualisieren Sie $f$ für feste Zeit $t = 0$ anschließend und erklären Sie, warum es zwei stabile stationäre Zustände gibt.
 """
 
-# ╔═╡ f53d128d-2ba1-4e51-9ace-8cbc9e8d365b
-function euler(t_anfang, t_ende, T_anfang, h, f)
-	# Code zu schreiben
+# ╔═╡ 4fb04231-7457-4e8b-a4be-e877fb52feaa
+function f(t, T)
 	return missing
 end
 
-# ╔═╡ 9a00321c-9148-49b7-a1aa-ccc164a4d2e2
-schrittweite = 0.5 # = h, in Jahren
+# ╔═╡ e6981393-5640-44e1-b6a7-21b349249222
+let
+	T = range(0.0, 20.0, length = 200)
+	plot(T, f.(0.0, T), xguide = L"T", yguide=  L"f(0, T)", label = "")
+end
 
-# ╔═╡ 20132f64-da19-4e94-bc42-356a23e16d94
+# ╔═╡ 03478a0b-1262-4921-b4f2-20161c3a2b6b
+md"""### Aufgabe
+
+👉 Implementieren Sie das (explizite) Euler-Verfahren für die Temperatur im empirischen Modell mit zwei Zuständen. Vergleichen Sie die Resultate für verschiedene Anfangstemperaturen $T_0$.
+"""
+
+# ╔═╡ e0797572-adc8-4480-87a6-a1d7a13574ee
+function euler(t_anfang, t_ende, T_anfang, h, f)
+	return missing
+	# return zeit, temperatur
+end
+
+# ╔═╡ ea8fab1e-297d-45ad-924d-23236e55e376
 let
 	abbildung = plot(xguide = L"Zeit $t$ in Jahren",
 					 yguide = L"Temperatur $T$ in °C")
 
 	t0 = 0.0
-	tf = 10.0
-	plot!(abbildung, [t0, tf], fill(temperatur_gleichgewicht, 2),
-		  label = L"Gleichgewichts-Temperatur $T_{GG}$")
-	
-	# Code zu schreiben
+	tf = 3.0e5
+	schrittweite = 1.0 # = h, in Jahren
+
+	for T0 in [14.5, 15.0, 15.5]
+		zeit, temperatur = euler(t0, tf, T0, schrittweite, f)
+		plot!(abbildung, zeit, temperatur, label = "\$T(t_0) = $(T0)\$°C")
+	end
+
+	plot!(abbildung, legend = :right)
+	abbildung
+end
+
+# ╔═╡ 46ec56b9-d0b0-46d5-a0b7-9ddb82de28fb
+let
+	abbildung = plot(xguide = L"Zeit $t$ in Jahren",
+					 yguide = L"Temperatur $T$ in °C")
+
+	t0 = 0.0
+	tf = 3.0e5
+	schrittweite = 1.0 # = h, in Jahren
+
+	for T0 in [4.5, 5.0, 5.5]
+		zeit, temperatur = euler(t0, tf, T0, schrittweite, f)
+		plot!(abbildung, zeit, temperatur, label = "\$T(t_0) = $(T0)\$°C")
+	end
+
+	plot!(abbildung, legend = :right)
+	abbildung
+end
+
+# ╔═╡ 82110cad-8265-4881-9ac7-f80b06fe5afb
+let
+	abbildung = plot(xguide = L"Zeit $t$ in Jahren",
+					 yguide = L"Temperatur $T$ in °C")
+
+	t0 = 0.0
+	tf = 3.0e5
+	schrittweite = 1.0 # = h, in Jahren
+
+	for T0 in [9.0, 10.0, 11.0]
+		zeit, temperatur = euler(t0, tf, T0, schrittweite, f)
+		plot!(abbildung, zeit, temperatur, label = "\$T(t_0) = $(T0)\$°C")
+	end
+
+	plot!(abbildung, legend = :right)
+	abbildung
+end
+
+# ╔═╡ 118ced98-c208-44aa-bbca-bc7c18615d7e
+md"""
+## Stochastische Einflüsse
+
+Das gerade eben entwickelte empirische Modell kann ebenfalls nicht die beobachteten
+Schwankungen der Größenordnung $10°C$ erklären. Um solche Schwankungen
+zu modellieren, können wir stochastische Einflüsse hinzufügen. Die grundlegende Idee
+ist, dass es viele weitere Einflüsse auf das Klima gibt, die wir nicht alle explizit
+modellieren. Stattdessen modelieren wir deren Netto-Einflüsse als Zufallsvariablen.
+Konkret betrachten wir normalverteilte Zufallsvariablen mit Erwartungswert
+$\mu = 0$ und Varianz $\sigma^2$. Statt des expliziten Euler-Verfahrens verwenden
+wir dann das *Euler-Maruyama-Verfahren*
+
+$$T_{n+1} = T_n + h f(t_n, T_n) + \sigma \sqrt{h} \xi_n,$$
+
+wobei $h$ die Schrittweite ist und $\xi_n$ die Realisierung einer normalverteilten
+Zufallsvariable mit Erwartungswert Null und Varianz Eins ist. Wie Benzi, Parisi, Sutera und Vulpiani (1982) wählen wir
+
+$$\sigma^2 = 0.15 °C^2 / a,$$
+
+was zu der Varianz historisch beobachteter Temperaturschwankungen passt.
+"""
+
+# ╔═╡ d1b36ffa-26c1-4974-8127-7df60cea90b3
+md"""### Aufgabe
+
+👉 Implementieren Sie das Euler-Maruyama-Verfahren als Erweiterung des vorherigen empirischen Modells mit zwei stationären Zuständen und analysieren Sie die Ergebnisse.
+"""
+
+# ╔═╡ eb9eb082-b7ea-4b45-895c-0d6833f6ae6d
+function euler_maruyama(t_anfang, t_ende, T_anfang, h, f, σ)
+	return missing
+	# return zeit, temperatur
+end
+
+# ╔═╡ 6482db8b-f77e-4317-93f6-d56fad1c1e11
+let
+	abbildung = plot(xguide = L"Zeit $t$ in Jahren",
+					 yguide = L"Temperatur $T$ in K")
+
+	Random.seed!(1)
+	σ = sqrt(0.15) # 0.15 K² / year
+	t0 = 0.0
+	tf = 3.0e5
+	schrittweite = 1.0 # = h, in Jahren
+
+	for T0 in [14.0] # in °C
+		zeit, temperatur = euler_maruyama(t0, tf, T0, schrittweite, f, σ)
+		plot!(abbildung, zeit, temperatur, label = "\$T(t_0) = $(T0)\$ K")
+	end
 	
 	abbildung
 end
+
+# ╔═╡ 3745b5e0-8a36-43e5-a56f-18904d4db2c0
+md"""### Aufgabe
+
+👉 Vergleichen Sie die Ergebnisse für verschiedene Stärken des Milankovic-Zyklus und des stochastischen Rauschens. Versuchen Sie zu erklären, warum für diesen Effekt der Name *stochastische Resonanz* geprägt wurde.
+"""
+
+# ╔═╡ 7a682d94-3a11-433f-8b07-14cfad68eec1
+missing
 
 # ╔═╡ 00000000-0000-0000-0000-000000000001
 PLUTO_PROJECT_TOML_CONTENTS = """
@@ -248,6 +226,7 @@ PLUTO_PROJECT_TOML_CONTENTS = """
 LaTeXStrings = "b964fa9f-0449-5b57-a5c2-d3ea65f4040f"
 Plots = "91a5bcdd-55d7-5caf-9e0b-520d859cae80"
 PlutoTeachingTools = "661c6b06-c737-4d37-b85c-46df65de6f69"
+Random = "9a3f8284-a2c9-5f02-9a11-845980a1fd5c"
 
 [compat]
 LaTeXStrings = "~1.3.1"
@@ -261,7 +240,7 @@ PLUTO_MANIFEST_TOML_CONTENTS = """
 
 julia_version = "1.10.5"
 manifest_format = "2.0"
-project_hash = "1c2b8e8fd656c43d9d8936392db5d4cad1264e53"
+project_hash = "d157c282f07c94c2ca6386d4fd1f83db5edb48d3"
 
 [[deps.AbstractPlutoDingetjes]]
 deps = ["Pkg"]
@@ -592,9 +571,9 @@ version = "3.0.0+1"
 
 [[deps.LLVMOpenMP_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl"]
-git-tree-sha1 = "e16271d212accd09d52ee0ae98956b8a05c4b626"
+git-tree-sha1 = "78211fb6cbc872f77cad3fc0b6cf647d923f4929"
 uuid = "1d63c593-3942-5779-bab2-d838dc0a180e"
-version = "17.0.6+0"
+version = "18.1.7+0"
 
 [[deps.LZO_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl"]
@@ -1429,27 +1408,32 @@ version = "1.4.1+1"
 """
 
 # ╔═╡ Cell order:
-# ╠═a629375a-6c6e-11ef-22c2-2976d3416040
-# ╟─84b09fb1-4a95-4048-b052-acf9573c4c0e
-# ╠═b5d30f29-0a04-4aa3-bcf8-49c857491226
-# ╠═e7a09e01-8039-49be-bdf5-1bd1fc629fe9
-# ╠═88fb13ca-79bb-4280-a7f3-3de6d8ac07a9
-# ╟─61359f21-23f3-4222-bc34-d6d0c21d9cb0
-# ╟─93de635a-121c-4280-95a9-379827aef700
-# ╠═26b580dd-0dd7-4f3f-991f-b99fadf97656
-# ╟─0538e82e-d959-440c-8572-a26e9b22bfd0
-# ╠═fbe6eed1-c61f-4a56-9191-0f170f4f79fa
-# ╟─1e8969da-ee7a-461d-b28a-b0fb761adc8c
-# ╟─d6e21a2f-866a-4493-88bd-568de7ec5bc0
-# ╟─4e20b8db-74e8-4dc9-b307-967df8722199
-# ╟─4a978a4f-3745-4036-ab9e-ab0831e45298
-# ╠═2d300023-2b03-458f-8caa-4263bc695145
-# ╠═4bdc0187-a0e3-447b-995f-934c7dba959d
-# ╟─d8356547-4f1c-44ea-be37-faab8add7919
-# ╟─27cca4ec-d433-48e4-b663-e9d161588a71
-# ╟─e019551b-0b66-4c52-8773-5213b85ad1cd
-# ╠═f53d128d-2ba1-4e51-9ace-8cbc9e8d365b
-# ╠═9a00321c-9148-49b7-a1aa-ccc164a4d2e2
-# ╠═20132f64-da19-4e94-bc42-356a23e16d94
+# ╟─99b1e590-732f-11ef-3970-dd2ca5ffa936
+# ╟─1e0fdf42-5a53-4dcc-bf04-f094a893cfd3
+# ╠═05a47e47-678d-4517-aa8f-7b1e37b04868
+# ╠═2e11ed1b-bf06-44fb-954b-2452793b71c1
+# ╠═777b3597-2238-479f-9917-c97645cc6b32
+# ╠═351a442b-7dcc-4633-be35-f1fe975811cb
+# ╟─4f7e9219-fa78-4b98-a46d-0165230e4cb4
+# ╟─11cf0494-62d5-4aa7-9946-d35a2e0f3b0c
+# ╠═975b141b-4755-4f5d-bc44-980c335376ee
+# ╟─d19427e4-6b9c-497a-b7d6-6211c8b02444
+# ╟─166d5354-6919-42e9-b622-16a041455c5b
+# ╠═41c53df2-4120-49d8-84ba-5e2c98b599e4
+# ╟─e11cbf86-8db7-44db-a685-6462da8eb0e1
+# ╟─c3ac539f-bed3-46c4-9371-d52290a319a3
+# ╠═4fb04231-7457-4e8b-a4be-e877fb52feaa
+# ╠═e6981393-5640-44e1-b6a7-21b349249222
+# ╟─03478a0b-1262-4921-b4f2-20161c3a2b6b
+# ╠═e0797572-adc8-4480-87a6-a1d7a13574ee
+# ╠═ea8fab1e-297d-45ad-924d-23236e55e376
+# ╠═46ec56b9-d0b0-46d5-a0b7-9ddb82de28fb
+# ╠═82110cad-8265-4881-9ac7-f80b06fe5afb
+# ╟─118ced98-c208-44aa-bbca-bc7c18615d7e
+# ╟─d1b36ffa-26c1-4974-8127-7df60cea90b3
+# ╠═eb9eb082-b7ea-4b45-895c-0d6833f6ae6d
+# ╠═6482db8b-f77e-4317-93f6-d56fad1c1e11
+# ╟─3745b5e0-8a36-43e5-a56f-18904d4db2c0
+# ╠═7a682d94-3a11-433f-8b07-14cfad68eec1
 # ╟─00000000-0000-0000-0000-000000000001
 # ╟─00000000-0000-0000-0000-000000000002

@@ -68,4 +68,7 @@ ausgewählt werden können.
     - Skript
     - Material und Code im Notebook `05_Dynamisches_0D_EBM.jl`
     - Statische Darstellung der Aufgaben: https://ranocha.de/2024_MMA_Klima/05_Dynamisches_0D_EBM.html
-
+- Stochastisches Modell (Seminarraum, Computerraum)
+    - Skript
+    - Material und Code im Notebook `06_Stochastisches_Modell.jl`
+    - Statische Darstellung der Aufgaben: https://ranocha.de/2024_MMA_Klima/06_Stochastisches_Modell.html
