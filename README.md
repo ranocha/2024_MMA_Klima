@@ -20,6 +20,13 @@ https://julialang.org/downloads/
 zu finden.
 Das Material wurde mit Julia Version 1.10.5 erstellt.
 
+Auf den Computern der Universität Mainz ist Julia unter Linux schon installiert.
+Wenn Sie lieber mit Windows arbeiten möchten, müssen Sie Julia gegebenenfalls
+selbst installieren. Dazu müssen Sie Julia als
+[ZDV-App installieren](https://www.zdv.uni-mainz.de/zdvapps-software-am-arbeitsplatz/).
+Die Installation unter Linux ist aber besser getestet und im Zweifelsfall zu
+bevorzugen.
+
 Die einzelnen Bausteine sind von [Pluto.jl](https://github.com/fonsp/Pluto.jl)
 Notebooks. Um diese nutzen zu können, muss das Julia-Paket Pluto.jl
 installiert werden. Dies kann wie auf der
@@ -44,7 +51,7 @@ ausgewählt werden können.
 
 Öffnen Sie die Julia REPL - entweder direkt von der Konsole aus oder indem Sie im
 Windows Datei Explorer dieses Verzeichnis öffnen und dann in die Adresszeile
-"julia" eingeben. Ein Konsolenfenster sollte sich öffnen, in dem Sie folgenden
+`julia` eingeben. Ein Konsolenfenster sollte sich öffnen, in dem Sie folgenden
 Code ausführen:
 
 ```julia
@@ -80,9 +87,10 @@ ausgewählt werden können.
     - Material und Code im Notebook `07_Räumliche_Abhängigkeiten.jl`
     - Statische Darstellung der Aufgaben: https://ranocha.de/2024_MMA_Klima/07_Räumliche_Abhängigkeiten.html
 
+
 ## Quellen
 
-Detaillierte Quellenangaben findne Sie in den zugehörigen Notizen, die in der
+Detaillierte Quellenangaben finden Sie in den zugehörigen Notizen, die in der
 Veranstaltung verteilt werden.
 Darüber hinaus wurde dieser Kurs von Material der Lehrveranstaltung
 *An introduction to Climate Modeling* im Sommersemester 2023 an
