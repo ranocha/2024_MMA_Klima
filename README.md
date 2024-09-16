@@ -10,6 +10,19 @@ der [Mainzer Mathe-Akademie 2024](https://freunde.mathematik.uni-mainz.de/mma/).
 - Programm: https://freunde.mathematik.uni-mainz.de/files/2024/08/MMA-2024-Programm.pdf
 - Übersicht über die Kurse: https://freunde.mathematik.uni-mainz.de/files/2024/08/MMA-Kursbeschreibungen-2024-08-14.pdf
 
+> Der Klimawandel mit seinen Auswirkungen ist ein Thema, zu dem
+> viele Menschen eine starke Meinung haben. Um sachlich darüber
+> diskutieren zu können, sollte man allerdings auch die wissenschaftliche
+> Seite verstehen, in der Klimamodelle eine wesentliche Rolle spielen.
+> Wir werden einen Blick unter die Haube solcher Klimamodelle werfen.
+> Dazu betrachten wir zunächst die notwendigen Grundlagen der Analysis
+> (Ableitungen) und nutzen diese für eine mathematisch-physikalische
+> Modellierung des Klimas. Da die entstehenden Gleichungen sehr komplex
+> sind, benötigen wir numerische Verfahren, um das Lösungsverhalten zu
+> verstehen. Glücklicherweise können uns Computer die eigentliche
+> Rechenarbeit abnehmen, sodass wir "nur noch etwas programmieren
+> müssen".
+
 
 ## Installation
 
