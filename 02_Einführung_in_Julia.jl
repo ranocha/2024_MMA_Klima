@@ -259,7 +259,7 @@ md"""
 md"""
 ### Aufgabe
 
-👉 Schreiben Sie die Aufgabe `summe`, die mithilfe einer `for`-Schleife die Summe aller Einträge des Arguments berechnet.
+👉 Schreiben Sie die Funktion `summe`, die mithilfe einer `for`-Schleife die Summe aller Einträge des Arguments berechnet.
 """
 
 # ╔═╡ 8a9ed302-5ac9-4998-8e8f-69076739de80
